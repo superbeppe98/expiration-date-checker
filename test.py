@@ -1,6 +1,5 @@
 import datetime
 import pandas as pd
-from controllo import align_left
 
 
 def test_align_left():
