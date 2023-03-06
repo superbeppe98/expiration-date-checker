@@ -1,5 +1,5 @@
 # Expiration Date Checker
-A simple Python program for a Expiration date checker
+Expiration Date Checker is a Python program that checks the expiration date of products using an Excel file as input. It is a simple and easy-to-use tool that helps you keep track of the expiration dates of your products.
 
 ## Installation
 To install Expiration Date Checker, you need to have Python 3 installed on your system. The program also requires two dependencies, pandas and tabulate, to be installed. You can install these dependencies by running the following command in your terminal or command prompt:
