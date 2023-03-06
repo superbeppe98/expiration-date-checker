@@ -1,6 +1,5 @@
 import datetime
 import pandas as pd
-from tabulate import tabulate
 from controllo import align_left
 
 
