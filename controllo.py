@@ -1,5 +1,6 @@
 from tabulate import tabulate
 import pandas as pd
+import datetime
 pd.options.mode.chained_assignment = None
 
 # Funzione per allineare a sinistra le stringhe
@@ -11,6 +12,10 @@ def align_left(s):
     else:
         return f'{s:<30}'
 
+
+data_scadenza_str = input(
+    "Inserisci la data di scadenza del confezionamento (formato: 01-01-2023): ")
+data_scadenza = datetime.datetime.strptime(data_scadenza_str, '%d-%m-%Y')
 
 # Carica il file Excel
 df = pd.read_excel("prodotti.xlsx")
@@ -31,7 +36,7 @@ df = df.rename(columns={"purchase_price": "Prezzo di acquisto"})
 df["Confezionamento"] = pd.to_datetime(df["Confezionamento"], format="%m/%y")
 
 # Trova i prodotti con data di scadenza fino alla fine dell'anno 2023
-mask = (df["Confezionamento"] <= pd.Timestamp(2023, 12, 31))
+mask = (df["Confezionamento"] <= pd.Timestamp(data_scadenza))
 prodotti_scadenza = df.loc[mask]
 
 prodotti_scadenza["Confezionamento"] = prodotti_scadenza["Confezionamento"].dt.strftime(
