@@ -5,6 +5,10 @@ A simple Python program for a Expiration date checker
 The following two dependencies are needed:
  - pandas
  - tabulate
+You can install this using
+```shell
+pip install -r requirements.txt
+```
 
 ## Usage
 You need to provide a file .xlsx named "products"
