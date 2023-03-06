@@ -1,7 +1,7 @@
 import datetime
 import pandas as pd
 from tabulate import tabulate
-from main import align_left
+from controllo import align_left
 
 
 def test_align_left():
