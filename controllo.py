@@ -1,9 +1,11 @@
 from tabulate import tabulate
 import pandas as pd
 import datetime
+
+# Disable SettingWithCopyWarning
 pd.options.mode.chained_assignment = None
 
-# Funzione per allineare a sinistra le stringhe
+# Function to left-align strings
 
 
 def align_left(s):
@@ -13,34 +15,35 @@ def align_left(s):
         return f'{s:<30}'
 
 
+# Prompt user to input the expiration date of the packaging in the format "01-01-2023"
 data_scadenza_str = input(
-    "Inserisci la data di scadenza del confezionamento (formato: 01-01-2023): ")
+    "Enter the expiration date of the packaging (format: 01-01-2023): ")
 data_scadenza = datetime.datetime.strptime(data_scadenza_str, '%d-%m-%Y')
 
-# Carica il file Excel
+# Load the Excel file
 df = pd.read_excel("prodotti.xlsx")
 
-# Rinomina la colonna "Part Name" in "Nome Articolo" e spostala alla posizione 0 spostando il testo a sinistra
-df = df.rename(columns={"Part Name": "Nome Articolo"})
-nome_articolo = df.pop("Nome Articolo")
-df.insert(0, "Nome Articolo", nome_articolo)
+# Rename the "Part Name" column to "Product Name" and move it to position 0, left-aligning the text
+df = df.rename(columns={"Part Name": "Product Name"})
+product_name = df.pop("Product Name")
+df.insert(0, "Product Name", product_name.apply(align_left))
 
+# Rename the "Quantity" column to "Quantity"
+df = df.rename(columns={"Quantity": "Quantity"})
 
-# Rinomina la colonna "Quantity" in "Quantità"
-df = df.rename(columns={"Quantity": "Quantità"})
+# Rename the "purchase_price" column to "Purchase Price"
+df = df.rename(columns={"purchase_price": "Purchase Price"})
 
-# Rinomina la colonna "Purchase Price" in "Prezzo di acquisto"
-df = df.rename(columns={"purchase_price": "Prezzo di acquisto"})
+# Convert the "Packaging" column to a datetime object
+df["Packaging"] = pd.to_datetime(df["Packaging"], format="%m/%y")
 
-# Converte la colonna "Confezionamento" in un oggetto datetime
-df["Confezionamento"] = pd.to_datetime(df["Confezionamento"], format="%m/%y")
+# Find products with an expiration date up to the end of 2023
+mask = (df["Packaging"] <= pd.Timestamp(data_scadenza))
+expiring_products = df.loc[mask]
 
-# Trova i prodotti con data di scadenza fino alla fine dell'anno 2023
-mask = (df["Confezionamento"] <= pd.Timestamp(data_scadenza))
-prodotti_scadenza = df.loc[mask]
-
-prodotti_scadenza["Confezionamento"] = prodotti_scadenza["Confezionamento"].dt.strftime(
+# Convert the "Packaging" column to a string in the format "dd-mm-yyyy"
+expiring_products["Packaging"] = expiring_products["Packaging"].dt.strftime(
     '%d-%m-%Y')
 
-# Stampa i prodotti trovati senza il numero di riga
-print(tabulate(prodotti_scadenza, showindex=False, headers=df.columns))
+# Print the expiring products without the row number
+print(tabulate(expiring_products, showindex=False, headers=df.columns))
