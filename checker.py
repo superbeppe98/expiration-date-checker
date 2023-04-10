@@ -23,8 +23,8 @@ data_scadenza = datetime.datetime.strptime(data_scadenza_str, '%d-%m-%Y')
 # Load the Excel file
 df = pd.read_excel("products.xlsx")
 
-# Rename the "Part Name" column to "Product Name" and move it to position 0, left-aligning the text
-df = df.rename(columns={"Part Name": "Product Name"})
+# Rename the "Nome Articolo" column to "Product Name" and move it to position 0, left-aligning the text
+df = df.rename(columns={"Nome Articolo": "Product Name"})
 product_name = df.pop("Product Name")
 df.insert(0, "Product Name", product_name.apply(align_left))
 
