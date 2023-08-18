@@ -12,7 +12,7 @@ To use Expiration Date Checker, you need to provide an Excel file named "product
 
 Once you have the Excel file ready, you can run the program by navigating to the directory where the program is stored and running the following command:
 ```shell
-$ python3 controllo.py
+$ python3 expiration-date-checker.py
 ```
 This will prompt you to enter the expiration date of the packaging in the format "dd-mm-yyyy". After entering the date, the program will display a table with the name, quantity, packaging, and purchase price of the products whose expiration date is later than the date you entered.
 
